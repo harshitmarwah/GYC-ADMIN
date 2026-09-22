@@ -1,0 +1,15 @@
+# Admin owns no infra of its own — its database is a SQLite file on disk,
+# not a container. The only thing it needs from here is Redis, the broker
+# shared with Consumer. This service definition is intentionally duplicated
+# in Consumer/docker-compose.yml so each repo can run standalone, cloned on
+# its own, with no cross-repo dependency at dev-environment setup time.
+#
+# If you're already running both repos together, starting this is enough —
+# don't also start Consumer's redis service, or the container name/port
+# will collide.
+services:
+  broker:
+    image: redis:7-alpine
+    container_name: gyc-broker
+    ports:
+      - "6379:6379"

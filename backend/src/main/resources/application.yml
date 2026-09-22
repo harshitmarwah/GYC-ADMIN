@@ -1,0 +1,32 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: admin-backend
+  datasource:
+    url: jdbc:sqlite:./data/admin.db
+    driver-class-name: org.sqlite.JDBC
+    hikari:
+      maximum-pool-size: 1 # SQLite allows a single writer at a time
+  jpa:
+    database-platform: org.hibernate.community.dialect.SQLiteDialect
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+
+app:
+  jwt:
+    # Dev-only default. Override with a real secret via env var in any
+    # shared environment — this is a 43-byte string, safely over the
+    # 256-bit minimum HS256 requires.
+    secret: ${JWT_SECRET:dev-only-admin-jwt-secret-change-me-please!!}
+    expiration-minutes: ${JWT_EXPIRATION_MINUTES:120}
+
+logging:
+  level:
+    gyc.admin: info
